@@ -16,7 +16,7 @@ import Rotate from 'boundless-sdk/js/components/Rotate.jsx';
 import HomeButton from 'boundless-sdk/js/components/HomeButton.jsx';
 import InfoPopup from 'boundless-sdk/js/components/InfoPopup.jsx';
 import Globe from 'boundless-sdk/js/components/Globe.jsx';
-import Legend from 'boundless-sdk/js/components/Legend.jsx';
+import LegendContainer from 'boundless-sdk/js/containers/LegendContainer.js';
 import Login from 'boundless-sdk/js/components/Login.jsx';
 import Tabs from 'material-ui/lib/tabs/tabs';
 import Tab from 'material-ui/lib/tabs/tab';
@@ -31,6 +31,7 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import layers from 'boundless-sdk/js/reducers/layers.js';
 import LayerContainer from 'boundless-sdk/js/containers/LayerContainer.js';
+import MapController from 'boundless-sdk/js/containers/MapController.js';
 
 var store = createStore(layers);
 
@@ -148,6 +149,7 @@ class QuickView extends React.Component {
     const {formatMessage} = this.props.intl;
     return (
         <div id='content'>
+          <MapController map={map} />
           <Toolbar>
             <ToolbarGroup float="right">
               <Login />
@@ -161,7 +163,7 @@ class QuickView extends React.Component {
             <div className="col tabs" id="tabspanel">
               <Tabs value={this.state.value} onChange={this.handleChange.bind(this)} disableTouchRipple={true}>
                 <Tab value={1} label={formatMessage(messages.layerstab)} disableTouchRipple={true}><div id='layerlist'><LayerContainer allowStyling={false} expandOnHover={false} showOnStart={true} addLayer={{allowUserInput: true, url: '/geoserver/wms'}} allowFiltering={true} showOpacity={true} showDownload={true} showGroupContent={true} showZoomTo={true} allowReordering={true} map={map} /></div></Tab>
-                <Tab value={2} label={formatMessage(messages.legendtab)} disableTouchRipple={true}><div id='legend'><Legend map={map} /></div></Tab>
+                <Tab value={2} label={formatMessage(messages.legendtab)} disableTouchRipple={true}><div id='legend'><LegendContainer /></div></Tab>
                 <Tab value={3} label={formatMessage(messages.attributestab)} disableTouchRipple={true}><div id="attributes-table-tab"><FeatureTable resizeTo='tabspanel' offset={[0, 48]} map={map} /></div></Tab>
                 <Tab value={4} label={formatMessage(messages.wfsttab)} disableTouchRipple={true}><div id='wfst'><WFST toggleGroup='navigation' showEditForm={true} map={map} /></div></Tab>
               </Tabs>
